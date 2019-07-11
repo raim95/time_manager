@@ -1,20 +1,29 @@
 # разбор сообщения работника
-def message_decoding(message, sending_time):
+def message_decoding(message):
 
     # определяем отправителя, убираем matrix...
     worker = message['sender'].split(':')[0]
 
     # считываем время, которое прислал работник
-    wried_time = []
+    time_1 = []
     for char in message['content']['body']:
         if char.isdigit():
-            wried_time.append(char)
+            time_1.append(char)
 
-    hour = wried_time[0]+wried_time[1]
-    minute = wried_time[2]+wried_time[3]
-    worker_writed_time = hour + ':' + minute
+    time_1[0] = str(time_1[0]+str(time_1[1]))
+    time_1[1] = str(time_1[2])+str(time_1[3])
 
-    # форматируем время отправки
-    real_time = str(sending_time.hour) + ':' + str(sending_time.minute)
+    return worker, time_1
 
-    return worker, worker_writed_time, real_time
+# проверка отправленного времени. если отправленное отличается от реального на 15 минут, пишет Гасюку
+
+def check_time(time_1, time_2):
+    check_time = 0
+    if abs((int(time_1[0]) - int(time_2[0]) == 0)):
+        check_time += 1
+    if abs((int(time_1[1]) - int(time_2[1]) == 0)):
+        check_time += 1
+    if check_time != 2:
+        print ('Wrong time')
+#        from matrix_client.room import Room
+#        agasroom = Room(work_client, config.agasuk)
