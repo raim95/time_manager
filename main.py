@@ -25,19 +25,20 @@ def on_message(room, event):
         else:
             time_2[1] = sending_time.minute
 
-
         # получаем сотрудника и время, которое он прислал
         worker, time_1 = message_decoding(event)
 
         # проверяем соответвие написанного и реального времени
-        check_time(time_2, time_1)
+        check_time(time_1, time_2)
 
+        # вычисляем графу, в которую надо записать время
+        cell_for_write = what_cell(sending_time, worker)
 
-        book = openpyxl.load_workbook('graphs.xlsx')
-        book_list = book['Полуянов А.']
-        book_list['B5'] = str(time_1[0])+str(time_1[1])
-        book_list['B6'] = str(time_2[0])+str(time_2[1])
-        book.save('graphs.xlsx')
+        # записываем время в ячейку
+        book = load_workbook(worker+'.xlsx')
+        sheet = book.active
+        sheet[cell_for_write] = str(time_2[0])+':'+str(time_2[1])+"("+str(time_1[0])+":"+str(time_1[1]+")")
+        book.save(worker+'.xlsx')
 
 
 room_to_listen.add_listener(on_message)  # добавляем слушателя
