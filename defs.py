@@ -1,4 +1,6 @@
 from openpyxl import load_workbook
+import config
+
 
 # разбор сообщения работника
 def message_decoding(message):
@@ -10,7 +12,8 @@ def message_decoding(message):
     for char in message['content']['body']:
         if char.isdigit():
             time_1.append(char)
-
+    if len(time_1) < 4:
+        time_1.insert(0, '0')
     time_1[0] = str(time_1[0] + str(time_1[1]))
     time_1[1] = str(time_1[2]) + str(time_1[3])
 
@@ -18,20 +21,21 @@ def message_decoding(message):
 
 
 # проверка отправленного времени. если отправленное отличается от реального на 15 минут, пишет Гасюку
-
 def check_time(time_1, time_2):
     check_time = 0
-    if abs((int(time_1[0]) - int(time_2[0]) == 0)):
+    wrire_time = True
+    if abs((int(time_1[0]) - int(time_2[0]) >= 1)):
         check_time += 1
-    if abs((int(time_1[1]) - int(time_2[1]) == 0)):
+    if abs((int(time_1[1]) - int(time_2[1]) >= 10)):
         check_time += 1
     if check_time != 2:
-        print('Wrong time')
-#        from matrix_client.room import Room
-#        agasroom = Room(work_client, config.agasuk)
+        wrire_time = False
+    return wrire_time
+
 
 # функция, которая выбирает нужную строку по совпадению даты
 def what_cell(date, worker):
+    import os
 
     year = str(date.year)
 
@@ -43,15 +47,23 @@ def what_cell(date, worker):
     if len(str(day)) < 2:
         day = '0' + str(day)
 
-    cell_value_must_be = str(year)+'-'+str(month)+'-'+str(day)
+    cell_value_must_be = str(year) + '-' + str(month) + '-' + str(day)
 
-    book = load_workbook(worker+'.xlsx')
+    book_name = 'Y:/ГРАФИКИ/' + config.worker_list[worker]+'xlsx'
+
+    book = load_workbook(book_name)
     sheet = book.active
     found_string = False
+    found_colomn = ''
     i = 1
     while found_string == False:
         if cell_value_must_be in str(sheet[i][0].value):
             found_string = True
-        else: i+=1
+            if str(sheet[i][1].value) != '':
+                found_colomn = 'G'
+            else:
+                found_colomn = 'B'
+        else:
+            i += 1
 
-    return str('B'+str(i))
+    return book_name, str(found_colomn + str(i))
