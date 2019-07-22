@@ -3,5 +3,5 @@
 echo "installing matrix-client"
 pip3 install matrix-client
 
-echo "installing openptxl"
+echo "installing openpyxl"
 pip3 install openpyxl
