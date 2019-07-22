@@ -58,8 +58,8 @@ def on_message(room, event):
 
 room_to_listen.add_listener(on_message)  # добавляем слушателя
 work_client.start_listener_thread()  # запускаем тред слушателя
-# alexey_room = work_client.join_room(config.test_id)
-# alexey_room.send_text('Bot started.')
+alexey_room = work_client.join_room(config.test_id)
+alexey_room.send_text('Bot started.')
 
 while True:
     pass
