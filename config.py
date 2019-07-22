@@ -1,25 +1,25 @@
 url = 'https://matrix.restautomat.ru:18448'
 login = "Support"
 password = "hi4r8wdjkghds"
-room_id = "!JtYomtSYacVfwKHWig:matrix.restautomat.ru" # Рабочий графие
-test_id = "!LXrUwoulMygVTSestO:matrix.restautomat.ru" # Полуянов А
-agasuk = '!mJOcrcJtbgGjfWOtmR:matrix.restautomat.ru' # Гасюк А
+room_id = "!JtYomtSYacVfwKHWig:matrix.restautomat.ru" # Рабочий график
+test_id = "!LXrUwoulMygVTSestO:matrix.restautomat.ru" # Полуянов
+agasuk = '!mJOcrcJtbgGjfWOtmR:matrix.restautomat.ru' # Гасюк
 worker_list = \
     {
-        '@APoluyanov':'Полуянов А.',
-        '@AGasyuk' : 'Гасюк А.',
-        "@CTO" : "Софийский С.",
-        "@VRogach" : "Рогач В.",
-        "@Gosip" : "Осипян Г.",
-        "@RRamazanov" : "Рамазанов Риман.",
-        "@lutfullin" : "Лутфуллин Т.",
-        "@Sklad1" : "Сапрыкин Д.",
-        "@nrahmanyuk" : "Рахманюк Н.",
-        "@aprozorovskii" : "Прозоровский А.",
-        "@EPushkarkiy" : "Пушкарский Е.",
+        '@APoluyanov':'Полуянов А',
+        '@AGasyuk' : 'Гасюк А',
+        "@CTO" : "Софийский С",
+        "@VRogach" : "Рогач В",
+        "@Gosip" : "Осипян Г",
+        "@RRamazanov" : "Рамазанов Риман",
+        "@lutfullin" : "Лутфуллин Т",
+        "@Sklad1" : "Сапрыкин Д",
+        "@nrahmanyuk" : "Рахманюк Н",
+        "@aprozorovskii" : "Прозоровский А",
+        "@EPushkarkiy" : "Пушкарский Е",
         "@RuslanRamazanov" : 'Рамазанов Руслан',
-        "@Jasur" : "Каримов Ж.",
-        "@ATagibov" : "Тагибов А."
+        "@Jasur" : "Каримов Ж",
+        "@ATagibov" : "Тагибов А"
     }
 
 # worker - id сотрудника, приславшего соощение
