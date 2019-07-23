@@ -7,7 +7,8 @@ work_client = MatrixClient(config.url)  # инициализуруем клие�
 
 work_client.login(config.login, config.password)  # логинимся
 
-room_to_listen = work_client.join_room(config.test_id)  # инициируем комнату
+room_to_listen = work_client.join_room(config.room_id)  # инициируем комнату
+alexey_room = work_client.join_room(config.test_id)
 
 
 # функция, которую вызывает листенер
@@ -30,13 +31,13 @@ def on_message(room, event):
         worker, time_1, date, found_colomn = message_decoding(event)
 
         if date != '':
-            pass
+            alexey_room.send_text(str(worker) + ' ' + 'date = '+str(date))
 
         elif found_colomn != '':
-            pass
+            alexey_room.send_text(str(worker) + ' ' + str(event['content']['body'])+' '+str(found_colomn))
 
         elif len(time_1) > 2:
-            pass
+            alexey_room.send_text(str(worker) + ' ' + 'Time = '+str(time_1))
         # проверяем соответвие написанного и реального времени
         else:
             write_time = check_time(time_1, time_2)
@@ -64,10 +65,7 @@ def on_message(room, event):
 room_to_listen.add_listener(on_message)  # добавляем слушателя
 work_client.start_listener_thread()  # запускаем тред слушателя
 
-#alexey_room = work_client.join_room(config.test_id)
-#alexey_room.send_text('Bot started.')
-
-room_to_listen.send_text('Bot started.')
+alexey_room.send_text('Bot started.')
 
 while True:
     pass

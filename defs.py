@@ -23,15 +23,19 @@ def only_time_in_message(time_1):
     if len(time_1) == 3 or len(time_1) == 7:
         time_1.insert(0, '0')
     if len(time_1) == 4:
-        time_1[0] = int(str(time_1[0]) + str(time_1[1]))
-        time_1[1] = int(str(time_1[2]) + str(time_1[3]))
+        time_1[0] = str(time_1[0]) + str(time_1[1])
+        time_1[1] = str(time_1[2]) + str(time_1[3])
         time_1.pop(3)
         time_1.pop(2)
     if len(time_1) == 8:
-        time_1[0] = int(str(time_1[0]) + str(time_1[1]))
-        time_1[1] = int(str(time_1[2]) + str(time_1[3]))
-        time_1[2] = int(str(time_1[4]) + str(time_1[5]))
-        time_1[3] = int(str(time_1[6]) + str(time_1[7]))
+        time_1[0] = str(time_1[0]) + str(time_1[1])
+        time_1[1] = str(time_1[2]) + str(time_1[3])
+        time_1[2] = str(time_1[4]) + str(time_1[5])
+        time_1[3] = str(time_1[6]) + str(time_1[7])
+        time_1.pop(7)
+        time_1.pop(6)
+        time_1.pop(5)
+        time_1.pop(4)
     return time_1
 
 
@@ -43,7 +47,7 @@ def time_and_date_in_message(time_1):
         str(time_1[0]) + str(time_1[1]) + '.' \
         + str(time_1[2]) + str(time_1[3]) + '.' + "2019"
     # убираем дату из сообщения
-    for i in range(3):
+    for i in range(4):
         time_1.pop(0)
     time_1_whis_date['time_1'] = only_time_in_message(time_1)
     found_colomn = time_1_whis_date['date']
@@ -103,7 +107,7 @@ def what_cell(date, worker):
 
     cell_value_must_be = str(year) + '-' + str(month) + '-' + str(day)
 
-    book_name = 'Y:/ГРАФИКИ/' + config.worker_list[worker] + '.xlsx'
+    book_name = '\\\\Coord\soft\ГРАФИКИ' + config.worker_list[worker] + '.xlsx'
 
     book = load_workbook(book_name)
     sheet = book.active
