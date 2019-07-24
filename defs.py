@@ -107,7 +107,7 @@ def what_cell(date, worker):
 
     cell_value_must_be = str(year) + '-' + str(month) + '-' + str(day)
 
-    book_name = '\\\\Coord\soft\ГРАФИКИ' + config.worker_list[worker] + '.xlsx'
+    book_name = config.way_to_files + config.worker_list[worker] + '.xlsx'
 
     book = load_workbook(book_name)
     sheet = book.active

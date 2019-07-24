@@ -2,6 +2,7 @@ from matrix_client.client import MatrixClient
 from defs import *
 from datetime import datetime
 from openpyxl import load_workbook
+import time
 
 work_client = MatrixClient(config.url)  # инициализуруем клиента
 
@@ -9,6 +10,7 @@ work_client.login(config.login, config.password)  # логинимся
 
 room_to_listen = work_client.join_room(config.room_id)  # инициируем комнату
 alexey_room = work_client.join_room(config.test_id)
+agasuk_room = work_client.join_room(config.agasuk)
 
 
 # функция, которую вызывает листенер
@@ -58,7 +60,6 @@ def on_message(room, event):
             try:
                 book.save(book_to_write)
             except PermissionError:
-                agasuk_room = work_client.join_room(config.agasuk)  # инициируем комнату с Гасюком
                 agasuk_room.send_text('Не могу сохранить документ "' + book_to_write + '"')
 
 
@@ -68,4 +69,4 @@ work_client.start_listener_thread()  # запускаем тред слушат�
 alexey_room.send_text('Bot started.')
 
 while True:
-    pass
+    time.sleep(1)
