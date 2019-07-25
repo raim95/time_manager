@@ -66,11 +66,9 @@ def on_message(room, event):
             sheet[cell_for_write] = time_3
             while book_saved == False:
                 try:
-                    input("in try")
                     book.save(book_to_write)
                     book_saved = True
                 except PermissionError:
-                    input("in exept")
                     agasuk_room.send_text('Не могу сохранить документ "' + book_to_write + '"')
                     book_saved = False
                     time.sleep(30)
