@@ -9,9 +9,9 @@ work_client = MatrixClient(config.url)  # инициализуруем клие�
 work_client.login(config.login, config.password)  # логинимся
 
 #room_to_listen = work_client.join_room(config.room_id)  # инициируем комнату
-alexey_room = work_client.join_room(config.test_id)
+alexey_room = work_client.join_room(config.apoluyanov)
 agasuk_room = work_client.join_room(config.agasuk)
-
+supp_room = work_client.join_room(config.supp)
 
 # функция, которую вызывает листенер
 def on_message(room, event):
@@ -33,10 +33,9 @@ def on_message(room, event):
         worker, time_1, date, found_colomn, missundestand = message_decoding(event)
 
         if missundestand == True:
-           alexey_room.send_text('missundestand = True')
-           alexey_room.send_text(worker, " : ", time_2, " : ", str(event['content']['body']))
-           alexey_room.send_text(time_2)
-           alexey_room.send_text(event['content']['body'])
+            alexey_room.send_text('missundestand = True')
+            alexey_room.send_text(worker)
+            alexey_room.send_text(event['content']['body'])
 
         elif date != '':
             alexey_room.send_text(str(worker) + ' ' + 'date = ' + str(date))
@@ -67,19 +66,23 @@ def on_message(room, event):
             sheet[cell_for_write] = time_3
             while book_saved == False:
                 try:
+                    input("in try")
                     book.save(book_to_write)
                     book_saved = True
                 except PermissionError:
+                    input("in exept")
                     agasuk_room.send_text('Не могу сохранить документ "' + book_to_write + '"')
                     book_saved = False
                     time.sleep(30)
 
 
-alexey_room.add_listener(on_message)
+
 #room_to_listen.add_listener(on_message)  # добавляем слушателя
+supp_room.add_listener(on_message) # тестовая комната с саппортом
 work_client.start_listener_thread()  # запускаем тред слушателя
 
 alexey_room.send_text('Bot started.')
+#agasuk_room.send_text('Bot started.')
 
 while True:
     time.sleep(1)
