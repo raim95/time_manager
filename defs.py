@@ -2,11 +2,8 @@ from openpyxl import load_workbook
 import config
 
 
-# отправка сообщения работнику, если не смогли распознать его сообщение:
-# def send_info_to_worker():
-
 # если время не указано
-def no_time_im_message(message):
+def no_time_im_message(message, missundestand):
     found_colomn = ''
     message = message.split(' ')
 
@@ -15,7 +12,8 @@ def no_time_im_message(message):
             found_colomn = 'B'
         elif word in config.status_finish:
             found_colomn = 'G'
-    return found_colomn
+        else: missundestand = True
+    return found_colomn, missundestand
 
 
 # если указано только время
@@ -32,10 +30,8 @@ def only_time_in_message(time_1):
         time_1[1] = str(time_1[2]) + str(time_1[3])
         time_1[2] = str(time_1[4]) + str(time_1[5])
         time_1[3] = str(time_1[6]) + str(time_1[7])
-        time_1.pop(7)
-        time_1.pop(6)
-        time_1.pop(5)
-        time_1.pop(4)
+        for i in range(4):
+            time_1.pop(4)
     return time_1
 
 
@@ -49,6 +45,7 @@ def time_and_date_in_message(time_1):
     # убираем дату из сообщения
     for i in range(4):
         time_1.pop(0)
+    # записываем дату и время
     time_1_whis_date['time_1'] = only_time_in_message(time_1)
     found_colomn = time_1_whis_date['date']
     time_1 = time_1_whis_date['time_1']
@@ -57,6 +54,8 @@ def time_and_date_in_message(time_1):
 
 # разбор сообщения работника
 def message_decoding(message):
+    missundestand = False
+
     # определяем отправителя, убираем matrix...
     worker = message['sender'].split(':')[0]
 
@@ -70,7 +69,7 @@ def message_decoding(message):
             time_1.append(char)
     # если цифр нет, проверяем сообщение на соответствие элементам из status
     if len(time_1) == 0:
-        found_colomn = no_time_im_message(str(message['content']['body']))
+        found_colomn = no_time_im_message(str(message['content']['body']), missundestand)
 
     # если цифры есть, определяем их количество и запускаем нужную функцицию
     elif len(time_1) >= 3 and len(time_1) <= 8:
@@ -78,7 +77,10 @@ def message_decoding(message):
     elif len(time_1) >= 11 and len(time_1) <= 12:
         date, time_1 = time_and_date_in_message(time_1)
 
-    return worker, time_1, date, found_colomn
+    # если цифр больше чем надо
+    else: missundestand = True
+
+    return worker, time_1, date, found_colomn, missundestand
 
 
 # проверка отправленного времени. если отправленное отличается от реального на 15 минут, пишет Гасюку
@@ -93,7 +95,6 @@ def check_time(time_1, time_2):
 
 # функция, которая выбирает нужную строку по совпадению даты
 def what_cell(date, worker):
-    import os
 
     year = str(date.year)
 
