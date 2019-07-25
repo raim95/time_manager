@@ -34,7 +34,7 @@ def on_message(room, event):
 
         if missundestand == True:
            alexey_room.send_text('missundestand = True')
-           alexey_room.send_text(worker)
+           alexey_room.send_text(worker, " : ", time_2, " : ", str(event['content']['body']))
            alexey_room.send_text(time_2)
            alexey_room.send_text(event['content']['body'])
 

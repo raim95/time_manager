@@ -69,7 +69,7 @@ def message_decoding(message):
             time_1.append(char)
     # если цифр нет, проверяем сообщение на соответствие элементам из status
     if len(time_1) == 0:
-        found_colomn = no_time_im_message(str(message['content']['body']), missundestand)
+        found_colomn, missundestand = no_time_im_message(str(message['content']['body']), missundestand)
 
     # если цифры есть, определяем их количество и запускаем нужную функцицию
     elif len(time_1) >= 3 and len(time_1) <= 8:
