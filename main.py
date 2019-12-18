@@ -3,19 +3,24 @@ from defs import *
 from datetime import datetime
 from openpyxl import load_workbook
 import time
+import getpass
+
+#для тестов. На ПК Гасюка записать пароль в файле config
+password = getpass.getpass()
 
 work_client = MatrixClient(config.url)  # инициализуруем клиента
 
-work_client.login(config.login, config.password)  # логинимся
+work_client.login(config.login, password)  # логинимся
 
-#room_to_listen = work_client.join_room(config.room_id)  # инициируем комнату
+room_to_listen = work_client.join_room(config.room_id)  # инициализируем комнату
 alexey_room = work_client.join_room(config.apoluyanov)
 agasuk_room = work_client.join_room(config.agasuk)
-supp_room = work_client.join_room(config.supp)
 
 # функция, которую вызывает листенер
 def on_message(room, event):
-    if event['type'] == "m.room.message" and event['content']['body'] != 'Bot started.':
+    if event['type'] == "m.room.message" \
+    and event['content']['body'] != 'Bot started.'\
+    and 'Service messange:' not in event['content']['body']:
         # приводим системное время к человекочитаемому виду
         sending_time = datetime.now()
         time_2 = [0, 0]
@@ -68,15 +73,15 @@ def on_message(room, event):
                 try:
                     book.save(book_to_write)
                     book_saved = True
-                except PermissionError:
+                except:
                     agasuk_room.send_text('Не могу сохранить документ "' + book_to_write + '"')
                     book_saved = False
                     time.sleep(30)
 
 
 
-#room_to_listen.add_listener(on_message)  # добавляем слушателя
-supp_room.add_listener(on_message) # тестовая комната с саппортом
+room_to_listen.add_listener(on_message)  # добавляем слушателя
+#alexey_room.add_listener(on_message) # тестовая комната с саппортом
 work_client.start_listener_thread()  # запускаем тред слушателя
 
 alexey_room.send_text('Bot started.')

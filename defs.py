@@ -25,7 +25,7 @@ def only_time_in_message(time_1):
         time_1[1] = str(time_1[2]) + str(time_1[3])
         time_1.pop(3)
         time_1.pop(2)
-    if len(time_1) == 8:
+    elif len(time_1) == 8:
         time_1[0] = str(time_1[0]) + str(time_1[1])
         time_1[1] = str(time_1[2]) + str(time_1[3])
         time_1[2] = str(time_1[4]) + str(time_1[5])

@@ -1,11 +1,10 @@
 url = 'https://matrix.restautomat.ru:18448'
 login = "Support"
-password = "hi4r8wdjkghds"
+password = ""
 room_id = "!JtYomtSYacVfwKHWig:matrix.restautomat.ru" # Рабочий график
 apoluyanov = "!LXrUwoulMygVTSestO:matrix.restautomat.ru" # Полуянов
-supp = "!zfQyYSkWDUsPfJqLZs:matrix.restautomat.ru" # Support
 agasuk = '!nqQcgekMmWiQxRQEAb:matrix.restautomat.ru' # Гасюк
-way_to_files = '//Coord/soft/ГРАФИКИ/'
+way_to_files = 'C://half/Графики/'   #тесты на пк Полуянова
 worker_list = \
     {
         '@APoluyanov':'Полуянов А',
@@ -24,6 +23,7 @@ worker_list = \
         "@ATagibov" : "Тагибов А",
         "@Support" : "Support"
     }
+
 status_start = ("приход", "Приход", "начал", "Начал")
 status_finish = ("уход", "Уход", "закончил", "Закончил")
 
