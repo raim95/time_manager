@@ -4,7 +4,7 @@ password = ""
 room_id = "!JtYomtSYacVfwKHWig:matrix.restautomat.ru" # Рабочий график
 apoluyanov = "!LXrUwoulMygVTSestO:matrix.restautomat.ru" # Полуянов
 agasuk = '!nqQcgekMmWiQxRQEAb:matrix.restautomat.ru' # Гасюк
-way_to_files = 'C://half/Графики/'   #тесты на пк Полуянова
+way_to_files = 'C://half/graphs/'   #тесты на пк Полуянова
 worker_list = \
     {
         '@APoluyanov':'Полуянов А',

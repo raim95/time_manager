@@ -2,6 +2,40 @@ from openpyxl import load_workbook
 import config
 
 
+# разбор сообщения работника
+def message_decoding(message):
+    missundestand = False
+
+    # определяем отправителя, убираем matrix...
+    worker = message['sender'].split(':')[0]
+
+    date = ''
+    found_colomn = ''
+    time_1 = []
+
+    # считываем время, которое прислал работник
+    # ищем цифры в сообщении
+    for char in message['content']['body']:
+        if char.isdigit():
+            time_1.append(char)
+
+    # если цифр нет, проверяем сообщение на соответствие элементам из status
+    if len(time_1) == 0:
+        found_colomn, missundestand = no_time_im_message(str(message['content']['body']), missundestand)
+
+    # если цифры есть, определяем их количество и запускаем нужную функцицию
+    elif len(time_1) >= 3 and len(time_1) <= 8:
+        time_1 = only_time_in_message(time_1)
+    elif len(time_1) >= 11 and len(time_1) <= 12:
+        date, time_1 = time_and_date_in_message(time_1)
+
+    # если цифр больше чем надо
+    else:
+        missundestand = True
+
+    return worker, time_1, date, found_colomn, missundestand
+
+
 # если время не указано
 def no_time_im_message(message, missundestand):
     found_colomn = ''
@@ -52,43 +86,12 @@ def time_and_date_in_message(time_1):
     return found_colomn, time_1
 
 
-# разбор сообщения работника
-def message_decoding(message):
-    missundestand = False
-
-    # определяем отправителя, убираем matrix...
-    worker = message['sender'].split(':')[0]
-
-    # считываем время, которое прислал работник
-    date = ''
-    found_colomn = ''
-    time_1 = []
-    # ищем цифры в сообщении
-    for char in message['content']['body']:
-        if char.isdigit():
-            time_1.append(char)
-    # если цифр нет, проверяем сообщение на соответствие элементам из status
-    if len(time_1) == 0:
-        found_colomn, missundestand = no_time_im_message(str(message['content']['body']), missundestand)
-
-    # если цифры есть, определяем их количество и запускаем нужную функцицию
-    elif len(time_1) >= 3 and len(time_1) <= 8:
-        time_1 = only_time_in_message(time_1)
-    elif len(time_1) >= 11 and len(time_1) <= 12:
-        date, time_1 = time_and_date_in_message(time_1)
-
-    # если цифр больше чем надо
-    else: missundestand = True
-
-    return worker, time_1, date, found_colomn, missundestand
-
-
 # проверка отправленного времени. если отправленное отличается от реального на 15 минут, пишет Гасюку
 def check_time(time_1, time_2):
     wrire_time = True
     check_hour = 60 * abs((int(time_1[0]) - int(time_2[0])))
     check_minute = abs(int(time_1[1]) - int(time_2[1]))
-    if (check_hour - check_minute) > 15:
+    if abs(check_hour - check_minute) > 15:
         wrire_time = False
     return wrire_time
 
@@ -118,11 +121,10 @@ def what_cell(date, worker):
     while found_string == False:
         if cell_value_must_be in str(sheet[i][0].value):
             found_string = True
-            a = str(sheet[i][1].value)
             if str(sheet[i][1].value) == 'None':
                 found_colomn = 'B'
             else:
-                found_colomn = 'G'
+                found_colomn = 'C'
         else:
             i += 1
 

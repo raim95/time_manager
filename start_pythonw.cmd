@@ -1,1 +1,1 @@
-start pythonw main.py
+start python main.py >> t.log
